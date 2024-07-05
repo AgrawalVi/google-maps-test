@@ -1,30 +1,13 @@
 "use client"
 import React from "react"
 import { GoogleMap, LoadScript, Polygon } from "@react-google-maps/api"
-import pewaukee from "../data/pewaukee.json"
-import brookfield from "../data/brookfield.json"
-import { extractPolygons } from "@/lib/map-util"
+
+import paths from "../data/wisconsin_data.json"
+
 import { ClickPopup } from "./click-popup"
 import { useState } from "react"
 
 const apiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY
-
-const styles = {
-  pewaukee: {
-    fillColor: "red",
-    fillOpacity: 0.6,
-    strokeColor: "red",
-    strokeOpacity: 0.8,
-    strokeWeight: 2,
-  },
-  brookfield: {
-    fillColor: "orange",
-    fillOpacity: 0.8,
-    strokeColor: "orange",
-    strokeOpacity: 0.8,
-    strokeWeight: 2,
-  },
-}
 
 const containerStyle = {
   width: "100%",
@@ -36,23 +19,14 @@ const center = {
   lng: -88.3,
 }
 
-// Dummy data for example purposes
-const pewaukeePaths = extractPolygons(pewaukee, styles.pewaukee, "pewaukee")
-const brookfieldPaths = extractPolygons(
-  brookfield,
-  styles.brookfield,
-  "brookfield"
-)
-console.log("brookfieldPaths", brookfieldPaths)
-
-const paths = [...pewaukeePaths, ...brookfieldPaths]
-
 const PolygonMap = () => {
   const [open, setOpen] = useState(false)
   const [pathName, setPathName] = useState([])
+  const [zipCode, setZipCode] = useState([])
 
-  const handleClick = (name) => {
+  const handleClick = (name, zipCode) => {
     setPathName(name)
+    setZipCode(zipCode)
     console.log("clicked on polygon", name)
     setOpen(true)
   }
@@ -65,10 +39,15 @@ const PolygonMap = () => {
             key={index}
             paths={path.path}
             options={path.style}
-            onClick={() => handleClick(path.name)}
+            onClick={() => handleClick(path.name, path.postal_code)}
           />
         ))}
-        <ClickPopup name={pathName} open={open} setOpen={setOpen} />
+        <ClickPopup
+          name={pathName}
+          zipCode={zipCode}
+          open={open}
+          setOpen={setOpen}
+        />
       </GoogleMap>
     </LoadScript>
   )
