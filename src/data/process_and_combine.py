@@ -1,6 +1,6 @@
 import os
 import json
-import random
+import numpy as np
 
 
 def extract_polygons(geojson, style, name, postal_code):
@@ -31,16 +31,21 @@ def extract_polygons(geojson, style, name, postal_code):
     return styled_paths
 
 
-colorOptions = ['#0000FF', '#00FFFF', '#00FF00', '#ADFF2F',
-                '#FFFF00', '#FFD700', '#FFA500', '#FF4500', '#FF0000', '#8B0000']
-
-
 def random_style():
+    color = 'orange'
+    mean = 500  # Center of the range (1 to 1000)
+    std_dev = 150  # Standard deviation
+    random_number = np.random.normal(mean, std_dev)
+    # Ensure the number is within the range of 1 to 1000
+    random_number = max(1, min(1000, int(random_number)))
+
+    transparency_value = (random_number - 1) / (1000 - 1)
+
     return {
-        'fillColor': random.choice(colorOptions),
-        'fillOpacity': random.randint(0, 100) / 100,
-        'strokeColor': random.choice(colorOptions),
-        'strokeOpacity': random.randint(0, 100) / 100,
+        'fillColor': 'orange',
+        'fillOpacity': transparency_value,
+        'strokeColor': 'red',
+        'strokeOpacity': 0.2,
         'strokeWeight': 1
     }
 
