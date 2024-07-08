@@ -90,7 +90,7 @@ def combine_json_files(input_folder, output_file):
 
 if __name__ == "__main__":
     # Replace with your input folder path
-    input_folder = '/Users/vishrutagrawal/xorbix/repos/google-maps-test/src/data/WI-raw'
+    input_folder = '/Users/vishrutagrawal/xorbix/repos/google-maps-test/src/data/raw-zipcodes-by-state/MI'
     # Replace with your desired output file path
-    output_file = '/Users/vishrutagrawal/xorbix/repos/google-maps-test/src/data/wisconsin_data.json'
+    output_file = '/Users/vishrutagrawal/xorbix/repos/google-maps-test/src/data/parsed-data-by-state/michigan_data.json'
     combine_json_files(input_folder, output_file)
